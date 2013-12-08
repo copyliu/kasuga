@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="春日.ImportWindow" Title="タイムタグテキストファイルのインポート" Width="500" Height="590" ResizeMode="NoResize" ShowInTaskbar="False" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Window.Resources>
+    <SolidColorBrush x:Key="ErrorBrush" Color="Red" />
+  </Window.Resources>
+  <DockPanel Margin="3,3,3,3">
+    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Content="OK" IsDefault="True" Width="75" Margin="3,3,3,3" Command="{Binding Path=OkCommand}" />
+      <Button Content="キャンセル" IsCancel="True" Width="75" Margin="3,3,3,3" Command="{Binding Path=CancelCommand}" />
+    </StackPanel>
+    <StackPanel VerticalAlignment="Top">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <GroupBox Header="インポート元のファイル" Margin="3,3,3,3">
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,3,3,3">
+            <TextBox Width="250" IsReadOnly="True" Text="{Binding Path=FileName, Mode=OneWay}">
+              <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=HasFileNameError, Mode=OneWay}" Value="True">
+                      <Setter Property="Control.BorderBrush" Value="{StaticResource ErrorBrush}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TextBox.Style>
+            </TextBox>
+            <Button Content="参照" Width="35" Command="{Binding Path=FileRefCommand}" />
+          </StackPanel>
+        </GroupBox>
+        <GroupBox Header="インポート方式" Margin="3,3,3,3">
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <RadioButton Content="新規" Margin="3,3,3,3" VerticalAlignment="Center" IsChecked="{Binding Path=IsNew, Mode=TwoWay}" />
+            <RadioButton Content="追加" Margin="3,3,3,3" VerticalAlignment="Center" IsChecked="{Binding Path=IsAdd, Mode=TwoWay}" IsEnabled="{Binding Path=IsAddEnabled, Mode=OneTime}" />
+          </StackPanel>
+        </GroupBox>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <GroupBox Header="時間余白" Margin="3,3,3,3">
+          <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+              <Label Content="ワイプ前" />
+              <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=BeforeMargin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Style>
+                  <Style TargetType="{x:Type TextBox}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Path=HasBeforeMarginError, Mode=OneWay}" Value="True">
+                        <Setter Property="Control.BorderBrush" Value="{StaticResource ErrorBrush}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </TextBox.Style>
+              </TextBox>
+              <Label Content="秒" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+              <Label Content="ワイプ後" />
+              <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=AfterMargin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Style>
+                  <Style TargetType="{x:Type TextBox}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Path=HasAfterMarginError, Mode=OneWay}" Value="True">
+                        <Setter Property="Control.BorderBrush" Value="{StaticResource ErrorBrush}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </TextBox.Style>
+              </TextBox>
+              <Label Content="秒" />
+            </StackPanel>
+          </StackPanel>
+        </GroupBox>
+        <GroupBox Header="表示間隔" Margin="3,3,3,3">
+          <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+            <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=ViewInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+              <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=HasViewIntervalError, Mode=OneWay}" Value="True">
+                      <Setter Property="Control.BorderBrush" Value="{StaticResource ErrorBrush}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TextBox.Style>
+            </TextBox>
+            <Label Content="秒" />
+          </StackPanel>
+        </GroupBox>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <GroupBox Header="ベースライン" Margin="3,3,3,3">
+          <StackPanel Orientation="Horizontal">
+            <StackPanel>
+              <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+                <Label Content="基準点のX座標" Width="90" />
+                <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=BaseX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="px" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+                <Label Content="基準点のY座標" Width="90" />
+                <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=BaseY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="px" />
+              </StackPanel>
+            </StackPanel>
+            <StackPanel>
+              <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+                <Label Content="有効幅" Width="45" />
+                <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=UsableWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="px" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+                <Label Content="角度" Width="45" />
+                <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=Angle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="°" />
+              </StackPanel>
+            </StackPanel>
+          </StackPanel>
+        </GroupBox>
+        <GroupBox Header="揃え方" Margin="3,3,3,3">
+          <StackPanel VerticalAlignment="Center">
+            <RadioButton Content="上揃え" Margin="3,3,3,3" IsChecked="{Binding Path=IsTopBase, Mode=TwoWay}" />
+            <RadioButton Content="下揃え" Margin="3,3,3,3" IsChecked="{Binding Path=IsBottomBase, Mode=TwoWay}" />
+          </StackPanel>
+        </GroupBox>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <GroupBox Header="行の配置方法" Margin="3,3,3,3">
+          <StackPanel Orientation="Horizontal">
+            <ComboBox Width="150" Margin="3,3,3,3" VerticalAlignment="Center" ItemsSource="{Binding Path=ArrangementNames, Mode=OneTime}" SelectedItem="{Binding Path=ArrangementName, Mode=TwoWay}" />
+            <CheckBox Content="中央寄せ" Margin="3,3,3,3" VerticalAlignment="Center" IsChecked="{Binding Path=IsCenteringEnabled, Mode=TwoWay}" />
+            <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+              <Label Content="重なり" />
+              <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=MinOverlapping, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Style>
+                  <Style TargetType="{x:Type TextBox}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Path=HasMinOverlappingError, Mode=OneWay}" Value="True">
+                        <Setter Property="Control.BorderBrush" Value="{StaticResource ErrorBrush}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </TextBox.Style>
+              </TextBox>
+              <Label Content="px" />
+            </StackPanel>
+          </StackPanel>
+        </GroupBox>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <GroupBox Header="行からの距離" Margin="3,3,3,3">
+          <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+              <Label Content="次の行まで" Width="70" />
+              <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=DistanceToNextLine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Style>
+                  <Style TargetType="{x:Type TextBox}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Path=HasDistanceToNextLineError, Mode=OneWay}" Value="True">
+                        <Setter Property="Control.BorderBrush" Value="{StaticResource ErrorBrush}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </TextBox.Style>
+              </TextBox>
+              <Label Content="px" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="3,3,3,3">
+              <Label Content="ルビまで" Width="70" />
+              <TextBox Width="50" TextAlignment="Right" Text="{Binding Path=DistanceToRuby, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Style>
+                  <Style TargetType="{x:Type TextBox}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Path=HasDistanceToRubyError, Mode=OneWay}" Value="True">
+                        <Setter Property="Control.BorderBrush" Value="{StaticResource ErrorBrush}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </TextBox.Style>
+              </TextBox>
+              <Label Content="px" />
+            </StackPanel>
+          </StackPanel>
+        </GroupBox>
+        <GroupBox Header="単語の配置方法" Margin="3,3,3,3">
+          <StackPanel VerticalAlignment="Center">
+            <CheckBox Margin="3,3,3,3" Content="{Binding Path=SpacingEnabledLabel, Mode=OneWay}" IsChecked="{Binding Path=IsSpacingEnabled, Mode=TwoWay}" />
+            <CheckBox Content="ルビに合わせて本文の位置を調整" Margin="3,3,3,3" IsChecked="{Binding Path=IsLikeUgaWord, Mode=TwoWay}" />
+          </StackPanel>
+        </GroupBox>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <GroupBox Header="フォント" Margin="3,3,3,3">
+          <ComboBox Width="150" Margin="3,3,3,3" ItemsSource="{Binding Path=FontSetNames, Mode=OneTime}" SelectedItem="{Binding Path=FontSetName, Mode=TwoWay}" />
+        </GroupBox>
+        <GroupBox Header="色" Margin="3,3,3,3">
+          <ComboBox Width="150" Margin="3,3,3,3" ItemsSource="{Binding Path=ColorSetNames, Mode=OneTime}" SelectedItem="{Binding Path=ColorSetName, Mode=TwoWay}" />
+        </GroupBox>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <GroupBox Header="エフェクト" Margin="3,3,3,3">
+          <StackPanel Orientation="Horizontal">
+            <ComboBox Width="150" Margin="3,3,3,3" ItemsSource="{Binding Path=OutputNames, Mode=OneTime}" SelectedItem="{Binding Path=OutputName, Mode=TwoWay}" />
+            <CheckBox Content="ワイプ無効" Margin="3,3,3,3" VerticalAlignment="Center" IsChecked="{Binding Path=IsWithoutSing, Mode=TwoWay}" />
+          </StackPanel>
+        </GroupBox>
+      </StackPanel>
+    </StackPanel>
+  </DockPanel>
+</Window>

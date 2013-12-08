@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{63D9B8D0-0642-4F6C-8F43-73BFD63EFFEB}") = "Kasuga", "Kasuga.csproj", "{B9A8343C-F8C3-41F7-9D15-0A3736570EFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9A8343C-F8C3-41F7-9D15-0A3736570EFC}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{B9A8343C-F8C3-41F7-9D15-0A3736570EFC}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{B9A8343C-F8C3-41F7-9D15-0A3736570EFC}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{B9A8343C-F8C3-41F7-9D15-0A3736570EFC}.Release|AnyCPU.Build.0 = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
