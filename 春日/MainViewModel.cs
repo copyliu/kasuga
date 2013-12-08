@@ -1010,7 +1010,7 @@ namespace 春日
 			{
 				ImportViewModel importViewModel = new ImportViewModel(this.Sub.Parts.Count, this.Sub.FontSetCatalog, this.Sub.ColorSetCatalog, this.Sub.OutputCatalog);
 				bool? nullable = importViewModel.ShowDialog();
-				if ((!nullable.GetValueOrDefault() ? false : nullable.HasValue))
+				if ((nullable.GetValueOrDefault() && nullable.HasValue))
 				{
 					this.Sub.ImportFromTimeTaggedText(importViewModel.ImportInfo);
 					this.RaisePropertyChanged("Sub");

@@ -33,6 +33,22 @@
           </StackPanel>
         </GroupBox>
       </StackPanel>
+      <StackPanel>
+      	<GroupBox Header="File Settings">
+      		<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+      			<StackPanel Orientation="Horizontal">
+      				<Label Content="File encoding" VerticalAlignment="Center" />
+      				<ComboBox VerticalAlignment="Center" MinWidth="131" SelectedValuePath="FileEncoding" ItemsSource="{Binding FileEncodingList}" >
+                        
+                        </ComboBox>
+      			</StackPanel>
+      			<StackPanel VerticalAlignment="Center">
+                            <CheckBox Content="txt2ass time tag Format" VerticalAlignment="Center" IsChecked="{Binding Path=Istxt2ass, Mode=TwoWay}" />
+      			</StackPanel>
+      		</StackPanel>
+      	</GroupBox>
+      </StackPanel>
+        
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
         <GroupBox Header="時間余白" Margin="3,3,3,3">
           <StackPanel Orientation="Horizontal">

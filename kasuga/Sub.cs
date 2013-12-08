@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Xml.Serialization;
 
@@ -322,9 +323,16 @@ namespace Kasuga
 				{
 					this.Parts.Clear();
 				}
-				StreamReader streamReader = new StreamReader(info.FileName, Encoding.GetEncoding("Shift-JIS"), true);
+				StreamReader streamReader = new StreamReader(info.FileName, Encoding.GetEncoding(info.FileEncoding), true);
 				string end = streamReader.ReadToEnd();
 				streamReader.Close();
+			    if (info.Istxt2ass)
+			    {
+			        Regex r =
+			            new Regex(
+			                @"\[(?<s>\d\d:\d\d:\d\d)\](?<k>[^\[\]]+?)\[\1\]\(\[\1\](?<h>[^\[\]]+?)\[(?<e>\d\d:\d\d:\d\d)\]\)");
+			        end=r.Replace(end, @"{[${s}]${k}[${e}]|[${s}]${h}[${e}]}");
+			    }
 				Part part = new Part(this, end, info.EffectName, info.IsTopBase, info.BeforeMargin, info.AfterMargin, info.ViewInterval, info.LeftCorner, info.UsableWidth, info.Angle, info.ArrangementName, info.IsCenteringEnabled, info.MinOverlapping, info.DistanceToNextLine, info.DistanceToRuby, info.IsSpacingEnabled, info.IsLikeUgaWord, info.IsWithoutSing, info.FontSetName, info.ColorSetName);
 				part.Arrange();
 				part.PutSingTimes();

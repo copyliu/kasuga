@@ -9,10 +9,11 @@ using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using 春日.Annotations;
 
 namespace 春日
 {
-	public class ImportViewModel : IDialogViewModel, INotifyPropertyChanged
+    public class ImportViewModel : IDialogViewModel, INotifyPropertyChanged
 	{
 		private string _fileName;
 
@@ -75,8 +76,44 @@ namespace 春日
 		private ICommand _cancelCommand;
 
 		private ICommand _fileRefCommand;
+        private bool _istxt2Ass;
+        private List<string> _fileEncodingList;
+        private string _fileEncoding;
 
-		public string AfterMargin
+        public string FileEncoding
+        {
+            get { return _fileEncoding; }
+            set
+            {
+                if (value == _fileEncoding) return;
+                _fileEncoding = value;
+                RaisePropertyChanged("FileEncoding");
+            }
+        }
+
+        public List<string> FileEncodingList
+        {
+            get { return _fileEncodingList; }
+            set
+            {
+                if (Equals(value, _fileEncodingList)) return;
+                _fileEncodingList = value;
+                RaisePropertyChanged("FileEncodingList");
+            }
+        }
+
+        public bool Istxt2ass
+        {
+            get { return _istxt2Ass; }
+            set
+            {
+                if (value.Equals(_istxt2Ass)) return;
+                _istxt2Ass = value;
+                RaisePropertyChanged("Istxt2ass");
+            }
+        }
+
+        public string AfterMargin
 		{
 			get
 			{
@@ -768,7 +805,15 @@ namespace 春日
 				Kasuga.ImportInfo importInfo;
 				try
 				{
-					importInfo = new Kasuga.ImportInfo(this.FileName, this.IsAdd, new PlayTimeSpan(new double?(double.Parse(this.BeforeMargin))), new PlayTimeSpan(new double?(double.Parse(this.AfterMargin))), new PlayTimeSpan(new double?(double.Parse(this.ViewInterval))), this.IsTopBase, new Point(double.Parse(this.BaseX), double.Parse(this.BaseY)), double.Parse(this.UsableWidth), double.Parse(this.Angle), this.ArrangementName, this.IsCenteringEnabled, double.Parse(this.MinOverlapping), double.Parse(this.DistanceToNextLine), double.Parse(this.DistanceToRuby), this.IsSpacingEnabled, this.IsLikeUgaWord, this.FontSetName, this.ColorSetName, this.OutputName, this.IsWithoutSing);
+				    importInfo = new Kasuga.ImportInfo(this.FileName, this.IsAdd,
+				        new PlayTimeSpan(new double?(double.Parse(this.BeforeMargin))),
+				        new PlayTimeSpan(new double?(double.Parse(this.AfterMargin))),
+				        new PlayTimeSpan(new double?(double.Parse(this.ViewInterval))), this.IsTopBase,
+				        new Point(double.Parse(this.BaseX), double.Parse(this.BaseY)), double.Parse(this.UsableWidth),
+				        double.Parse(this.Angle), this.ArrangementName, this.IsCenteringEnabled, double.Parse(this.MinOverlapping),
+				        double.Parse(this.DistanceToNextLine), double.Parse(this.DistanceToRuby), this.IsSpacingEnabled,
+				        this.IsLikeUgaWord, this.FontSetName, this.ColorSetName, this.OutputName, this.IsWithoutSing, this.Istxt2ass,
+				        this.FileEncoding);
 				}
 				catch (Exception exception)
 				{
@@ -1329,6 +1374,9 @@ namespace 春日
 				}
 				this._outputName = this._outputNames[0];
 				this._isWithoutSing = false;
+			    this._istxt2Ass = false;
+                this._fileEncodingList=new List<string>(){"SHIFT-JIS","UTF-8","GBK","BIG5"};
+			    this._fileEncoding = "SHIFT-JIS";
 				this._dialog = new ImportWindow(this);
 			}
 			catch (Exception exception)
@@ -1426,6 +1474,7 @@ namespace 春日
 			}
 		}
 
+        [NotifyPropertyChangedInvocator]
 		protected void RaisePropertyChanged(string propertyName)
 		{
 			try
@@ -1457,6 +1506,8 @@ namespace 春日
 			return nullable;
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
 	}
 }

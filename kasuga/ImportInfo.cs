@@ -127,7 +127,10 @@ namespace Kasuga
 			set;
 		}
 
-		public ImportInfo(string fileName, bool isAdd, PlayTimeSpan beforeMargin, PlayTimeSpan afterMargin, PlayTimeSpan viewInterval, bool isTopBase, Point leftCorner, double usableWidth, double angle, string arrangementName, bool isCenteringEnabled, double minOverlapping, double distanceToNextLine, double distanceToRuby, bool isSpacingEnabled, bool isLikeUgaWord, string fontSetName, string colorSetName, string effectName, bool isWithoutSing)
+	    public bool Istxt2ass { get; set; }
+        public string FileEncoding { get; set; }
+
+		public ImportInfo(string fileName, bool isAdd, PlayTimeSpan beforeMargin, PlayTimeSpan afterMargin, PlayTimeSpan viewInterval, bool isTopBase, Point leftCorner, double usableWidth, double angle, string arrangementName, bool isCenteringEnabled, double minOverlapping, double distanceToNextLine, double distanceToRuby, bool isSpacingEnabled, bool isLikeUgaWord, string fontSetName, string colorSetName, string effectName, bool isWithoutSing,bool istxt2ass,string fileEncoding)
 		{
 			try
 			{
@@ -151,6 +154,8 @@ namespace Kasuga
 				this.IsWithoutSing = isWithoutSing;
 				this.FontSetName = fontSetName;
 				this.ColorSetName = colorSetName;
+			    this.Istxt2ass = istxt2ass;
+			    this.FileEncoding = fileEncoding;
 			}
 			catch (Exception exception)
 			{
